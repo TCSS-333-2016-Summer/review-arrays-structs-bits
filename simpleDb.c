@@ -11,16 +11,6 @@ typedef struct {
 void clientRecord_init_data(clientRecord *c, char *name, char gender, int age);
 void clientRecord_destroy(clientRecord *c);
 
-int clientRecord_read_text(char *fileName, clientRecord **array);
-int clientRecord_read_text_realloc(char *fileName, clientRecord **array);
-void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords);
-
-void clientRecord_write_binary(char *fileName,clientRecord *c,int nRecords);
-int clientRecord_read_binary(char *fileName,clientRecord **c);
-
-void clientRecord_sort(clientRecord *c,int nRecords);
-int clientRecord_cmp(const void *a, const void *b);
-
 void clientRecord_init_data(clientRecord *c, char *name, char gender, int age){
 	c->name=malloc(strlen(name)+1);
 	strcpy(c->name,name);
