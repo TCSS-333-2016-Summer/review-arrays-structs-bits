@@ -2,11 +2,53 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-	char *name;
-	char gender;
-	int age;
-}clientRecord;
+int main(int argc, char *argv[]){
+	char *inputFile=0, *outputFile=0, rb=0, wb=0,s=0;
+	int i=1;
+	while(i<argc){
+		if(strcmp(argv[i],"-i") == 0){
+			inputFile=argv[++i];
+		}	
+		else if(strcmp(argv[i],"-o") == 0){
+			outputFile=argv[++i];
+		}
+		else if(strcmp(argv[i],"-wb") == 0){
+			wb=1;
+		}				
+		else if(strcmp(argv[i],"-rb") == 0){
+			rb=1;
+		}
+		else if(strcmp(argv[i],"-s") == 0){
+			s=1;
+		}
+		else{
+			fprintf(stderr,"simpleDb given wrong parameters\n");
+			exit(EXIT_FAILURE);
+		}	
+		i++;
+	}
+	//read in data
+	clientRecord *c;
+	int nRecords=0;
+	if(rb==0) nRecords=clientRecord_read_text(inputFile,&c);	
+	else nRecords=clientRecord_read_binary(inputFile,&c);	
+
+ //do something
+	if(s){
+		clientRecord_sort(c,nRecords);
+	}
+	
+	//write the data	
+	if(wb==0) clientRecord_write_text(outputFile,c,nRecords);	
+	else clientRecord_write_binary(outputFile,c,nRecords);
+	
+	//cleanup	
+ for (int i=0;i<nRecords;i++)
+  clientRecord_destroy(c+i);
+ free(c); 
+
+	return 1;
+}
 
 
 
