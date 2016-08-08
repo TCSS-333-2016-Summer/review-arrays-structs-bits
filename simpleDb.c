@@ -8,27 +8,9 @@ typedef struct {
 	int age;
 }clientRecord;
 
-void clientRecord_init_data(clientRecord *c, char *name, char gender, int age);
-void clientRecord_destroy(clientRecord *c);
-
 int clientRecord_read_text(char *fileName, clientRecord **array);
-int clientRecord_read_text_realloc(char *fileName, clientRecord **array);
 void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords);
 
-void clientRecord_init_data(clientRecord *c, char *name, char gender, int age){
-	c->name=malloc(strlen(name)+1);
-	strcpy(c->name,name);
-	c->age=age;
-	c->gender=gender;
-}
-void clientRecord_destroy(clientRecord *c){
-	if(c->name){ 
-		free (c->name);
-		c->name=0;
-	}
-	c->age=0;
-	c->gender=0;
-}
 
 int clientRecord_read_text(char *fileName, clientRecord **array){
 	FILE *fp=fopen(fileName,"r");
@@ -61,8 +43,6 @@ void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords){
 	}
 	fclose(fp);
 }	
-
-
 
 
 //Practice exercise
