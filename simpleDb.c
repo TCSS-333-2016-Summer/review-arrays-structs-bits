@@ -8,6 +8,61 @@ typedef struct {
 	int age;
 }clientRecord;
 
+void clientRecord_init_data(clientRecord *c, char *name, char gender, int age);
+void clientRecord_destroy(clientRecord *c);
+
+int clientRecord_read_text(char *fileName, clientRecord **array);
+int clientRecord_read_text_realloc(char *fileName, clientRecord **array);
+void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords);
+
+void clientRecord_init_data(clientRecord *c, char *name, char gender, int age){
+	c->name=malloc(strlen(name)+1);
+	strcpy(c->name,name);
+	c->age=age;
+	c->gender=gender;
+}
+void clientRecord_destroy(clientRecord *c){
+	if(c->name){ 
+		free (c->name);
+		c->name=0;
+	}
+	c->age=0;
+	c->gender=0;
+}
+
+int clientRecord_read_text(char *fileName, clientRecord **array){
+	FILE *fp=fopen(fileName,"r");
+ clientRecord *myArray= (clientRecord *) malloc(sizeof(clientRecord));
+ int maxElements=1;
+ char line[512];
+ int nLines=0;
+	while(fgets(line,sizeof(line),fp)){
+		while(nLines >= maxElements){
+			maxElements *=2;
+			myArray=realloc(myArray,maxElements*sizeof(clientRecord));
+		}	
+		int age;
+		char gender;
+		char name[512];
+		sscanf(line,"%s %c %d",name,&gender,&age);
+		fprintf(stderr,"%s %c %d\n",name,gender,age);
+		clientRecord_init_data(myArray+nLines,name,gender,age);
+		nLines++;
+	}
+	fclose(fp);
+	*array=myArray;
+	return nLines;
+}
+	
+void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords){
+	FILE *fp=fopen(fileName,"w");
+	for(int i=0;i<nRecords;i++){
+	 fprintf(fp,"%s %c %d\n",array[i].name,array[i].gender,array[i].age);
+	}
+	fclose(fp);
+}	
+
+
 
 
 //Practice exercise
@@ -59,7 +114,7 @@ typedef struct {
 //use clientRecord_init_read to enter the information into an element of the array of clientRecords
 //repeat until all records are read in
 
-//sample.bin is provided and is the binary counterpart to sample.txt
+//sample.bin is provided and is the binary co
 
 //******Part 6 put it all together
 
