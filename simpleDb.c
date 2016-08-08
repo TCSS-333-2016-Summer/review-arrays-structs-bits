@@ -11,8 +11,10 @@ typedef struct {
 void clientRecord_sort(clientRecord *c,int nRecords);
 int clientRecord_cmp(const void *a, const void *b);
 
-void clientRecord_sort(clientRecord *c,int nRecords);
-int clientRecord_cmp(const void *a, const void *b);
+void clientRecord_sort(clientRecord *c,int nRecords){
+	fprintf(stderr,"%d\n",nRecords);
+	qsort(c,nRecords,sizeof(clientRecord),clientRecord_cmp);
+}	
 
 int clientRecord_cmp(const void *a, const void *b){
 	clientRecord *ca = (clientRecord*)a;
