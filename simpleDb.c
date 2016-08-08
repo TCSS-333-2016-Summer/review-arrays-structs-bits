@@ -8,6 +8,36 @@ typedef struct {
 	int age;
 }clientRecord;
 
+void clientRecord_init_data(clientRecord *c, char *name, char gender, int age);
+void clientRecord_destroy(clientRecord *c);
+
+int clientRecord_read_text(char *fileName, clientRecord **array);
+int clientRecord_read_text_realloc(char *fileName, clientRecord **array);
+void clientRecord_write_text(char *fileName, clientRecord *array,int nRecords);
+
+void clientRecord_write_binary(char *fileName,clientRecord *c,int nRecords);
+int clientRecord_read_binary(char *fileName,clientRecord **c);
+
+void clientRecord_sort(clientRecord *c,int nRecords);
+int clientRecord_cmp(const void *a, const void *b);
+
+void clientRecord_init_data(clientRecord *c, char *name, char gender, int age){
+	c->name=malloc(strlen(name)+1);
+	strcpy(c->name,name);
+	c->age=age;
+	c->gender=gender;
+}
+void clientRecord_destroy(clientRecord *c){
+	if(c->name){ 
+		free (c->name);
+		c->name=0;
+	}
+	c->age=0;
+	c->gender=0;
+}
+
+
+
 
 
 //Practice exercise
@@ -59,7 +89,7 @@ typedef struct {
 //use clientRecord_init_read to enter the information into an element of the array of clientRecords
 //repeat until all records are read in
 
-//sample.bin is provided and is the binary counterpart to sample.txt
+//sample.bin is provided and is the binary co
 
 //******Part 6 put it all together
 
