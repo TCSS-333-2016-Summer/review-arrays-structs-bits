@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct {
+	char *name;
+	char gender;
+	int age;
+}clientRecord;
+
 
 
 //Practice exercise
